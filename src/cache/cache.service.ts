@@ -12,7 +12,7 @@ private readonly redis = new Redis({
 
   async set(key:string,value:any){
     const json = JSON.stringify(value);
-    this.redis.set(key,json);
+    await this.redis.set(key,json);
   }
 
   async get<T>(key:string) : Promise<T | null>{
