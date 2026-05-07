@@ -28,11 +28,15 @@ jobs:
             - name: Set up Docker Buildx
               uses: docker/setup-buildx-action@v3
 
+            - name: Convert to lowercase
+              id: lowercase
+              run: echo "image=ghcr.io/$(echo ${{ github.repository }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_OUTPUT
+
             - name: Build and push
               uses: docker/build-push-action@v5
               with:
                 push: true
                 tags: |
-                    ghcr.io/${{ github.repository }}:${{ github.sha }}
-                    ghcr.io/${{ github.repository }}:latest
+                    ${{ steps.lowercase.outputs.image }}:${{ github.sha }}
+                    ${{ steps.lowercase.outputs.image }}:latest
 
